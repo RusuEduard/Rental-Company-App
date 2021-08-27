@@ -1,0 +1,72 @@
+<div class="col-12">
+  <kendo-grid
+    #appuserGrid
+    [pageable]="true"
+    [sortable]="true"
+    [selectable]="true"
+    [filterable]="true"
+    kendoGridSelectBy="AppUserId"
+    [selectedKeys]="mySelection"
+    [data]="dataServiceData | async"
+    [pageSize]="state.take"
+    [skip]="state.skip"
+    [sort]="state.sort"
+    [filter]="state.filter"
+    [loading]="dataService?.pendingData"
+    (dataStateChange)="dataStateChange($event)"
+    (edit)="editHandler($event)"
+    (cancel)="cancelHandler($event)"
+    (save)="saveHandler($event)"
+    (remove)="removeHandler($event)"
+    (add)="addHandler($event)"
+    (selectionChange)="gridUserSelectionChange(appuserGrid, $event)"
+  >
+    <ng-template kendoGridToolbarTemplate>
+      <button kendoGridAddCommand>
+        <span class="k-icon k-i-add"></span>
+      </button>
+      <a routerLink="/companies-users-report" style="font-size: 20px;">Top 10 companies by number of users</a>
+    </ng-template>
+    <kendo-grid-column
+      [field]="'Name'"
+      [filterable]="true"
+      [filter]="'text'"
+      [sortable]="true"
+      [title]="'Name'"
+    ></kendo-grid-column>
+    <kendo-grid-column
+      [field]="'UserName'"
+      [filterable]="true"
+      [filter]="'text'"
+      [sortable]="true"
+      [title]="'UserName'"
+    ></kendo-grid-column>
+    <kendo-grid-column
+      [field]="'Password'"
+      [filterable]="true"
+      [filter]="'text'"
+      [sortable]="true"
+      [title]="'Password'"
+    ></kendo-grid-column>
+    <kendo-grid-command-column [width]="220">
+      <ng-template kendoGridCellTemplate>
+        <button kendoGridEditCommand>
+          <span class="k-icon k-i-edit"></span>Edit
+        </button>
+        <button kendoGridSaveCommand>
+          <span class="k-icon k-i-checkmark"></span>Save
+        </button>
+        <button kendoGridCancelCommand>
+          <span class="k-icon k-i-cancel"></span>Cancel
+        </button>
+        <button kendoGridRemoveCommand>
+          <span class="k-icon k-i-close"></span>Remove
+        </button>
+      </ng-template>
+    </kendo-grid-command-column>
+  </kendo-grid>
+</div>
+
+<div *ngIf="currentAppUser != ''">
+  <app-user-role-view [AppUserId]="currentAppUser"></app-user-role-view>
+</div>

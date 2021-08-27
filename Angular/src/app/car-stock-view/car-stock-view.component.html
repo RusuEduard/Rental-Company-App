@@ -1,0 +1,117 @@
+<div class="col-12" *ngIf="CarId != ''">
+    <kendo-grid #carstockGrid
+      [pageable]="true"
+      [sortable]="true"
+      [filterable]="true"
+      [data]="dataServiceData | async"
+      [pageSize]="state.take"
+      [skip]="state.skip"
+      [sort]="state.sort"
+      [filter]="state.filter"
+      [loading]="dataService?.pendingData"
+      (dataStateChange)="dataStateChange($event)"
+      (edit)="editHandler($event)"
+      (cancel)="cancelHandler($event)"
+      (save)="saveHandler($event)"
+      (remove)="removeHandler($event)"
+      (add)="addHandler($event)"
+
+     
+    >
+      <ng-template kendoGridToolbarTemplate>
+        <button kendoGridAddCommand  *ngIf ="UserRole !== 'user'" >
+          <span class="k-icon k-i-add"></span>
+        </button>
+      </ng-template>
+      <kendo-grid-column
+        [field]="'ValidFrom'"
+        [format]="'yyyy-MM-dd'"
+        [filterable]="true"
+        [filter]="'date'"
+        [sortable]="true"
+        [title]="'ValidFrom'"
+        editor='date'
+
+      ></kendo-grid-column>
+      <kendo-grid-column
+        [field]="'ValidTo'"
+        [format]="'yyyy-MM-dd'"
+        [filterable]="true"
+        [filter]="'date'"
+        [sortable]="true"
+        [title]="'ValidTo'"
+        editor='date'
+
+      ></kendo-grid-column>
+      <kendo-grid-column
+        [field]="'StockAmount'"
+        [filterable]="true"
+        [filter]="'numeric'"
+        [sortable]="true"
+        [title]="'StockAmount'"
+    ></kendo-grid-column>
+
+    <kendo-grid-column field="CarAgencyId" title="CarAgency" >
+      <ng-template kendoGridCellTemplate let-dataItem>
+            {{ agencies(dataItem.CarAgencyId)?.Address }}
+            {{ companies(dataItem.CarAgencyId)?.Description }}
+
+          </ng-template>
+          <ng-template
+            kendoGridEditTemplate
+            let-dataItem="dataItem"
+            let-column="column"
+            let-formGroup="formGroup"
+          >
+        <kendo-dropdownlist *ngIf="AgenciesList && AgenciesList !== undefined"
+          [defaultItem]="{ CarAgencyId: '', Address: 'Choose a car agency' }"
+          [data]="AgenciesList"
+          textField="Address"
+          valueField="CarAgencyId"
+          [valuePrimitive]="true"
+          [formControl]="formGroup.get('CarAgencyId')"
+
+        >
+        </kendo-dropdownlist>
+      </ng-template>
+      <ng-template kendoGridFilterCellTemplate let-filter  *ngIf="RentalCompany !== ''">
+          <app-car-stock-dropdown 
+            [filter]="filter"
+            [data]="AgenciesList"
+            textField="Address"
+            valueField="CarAgencyId"
+          >
+          </app-car-stock-dropdown>
+        </ng-template>
+
+      <ng-template kendoGridFilterCellTemplate let-filter  *ngIf="RentalCompany === ''">
+          <app-dropdownlist-filter
+            [filter]="filter"
+            [data]="AgenciesList"
+            textField="Address"
+            valueField="CarAgencyId"
+          >
+          </app-dropdownlist-filter>
+        </ng-template>
+    </kendo-grid-column>
+
+
+      <kendo-grid-command-column [width]="220" *ngIf ="UserRole !== 'user'">
+        <ng-template kendoGridCellTemplate>
+          <button kendoGridEditCommand   >
+            <span class="k-icon k-i-edit"></span>Edit
+          </button>
+          <button kendoGridSaveCommand>
+            <span class="k-icon k-i-checkmark"></span>Save
+          </button>
+          <button kendoGridCancelCommand>
+            <span class="k-icon k-i-cancel"></span>Cancel
+          </button>
+          <button kendoGridRemoveCommand>
+            <span class="k-icon k-i-close"></span>Remove
+          </button>
+        </ng-template>
+      </kendo-grid-command-column>
+    </kendo-grid>
+  </div>
+  

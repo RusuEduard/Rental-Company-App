@@ -1,0 +1,11 @@
+DEFINE TEMP-TABLE ttRent NO-UNDO
+    BEFORE-TABLE bttRent
+    FIELD RentId AS CHARACTER 
+    FIELD AppUserId AS CHARACTER 
+    FIELD CarAgencyId AS CHARACTER 
+    FIELD DateFrom AS DATE 
+    FIELD DateTo AS DATE
+    FIELD RentStatus AS INTEGER 
+
+    
+    INDEX idxRentId IS UNIQUE RentId.

@@ -1,0 +1,28 @@
+<div class="col-12">
+    <kendo-grid #cartypereportGrid
+      [pageable]="true"
+      [data]="dataServiceData | async"
+      [pageSize]="state.take"
+      [skip]="state.skip"
+      [loading]="dataService?.pendingData"
+      (dataStateChange)="dataStateChange($event)"
+    
+    >
+    
+    <kendo-grid-column 
+        [field]="'CompanyName'"
+        [title]="'Company name'"
+    ></kendo-grid-column>
+    <kendo-grid-column 
+        [field]="'NumberOfUsers'"
+        [title]="'Number of users'"
+    ></kendo-grid-column>
+
+    <kendo-grid-column 
+    [field]="'NumberOfAgencies'"
+    [title]="'Number of agencies'"
+    ></kendo-grid-column>
+
+    </kendo-grid>
+  </div>
+  

@@ -1,0 +1,66 @@
+<div class="col-12">
+  <kendo-grid
+    #rentalCompanyGrid
+    [pageable]="true"
+    [sortable]="true"
+    [selectable]="true"
+    [filterable]="true"
+    [data]="dataServiceData | async"
+    [pageSize]="state.take"
+    [skip]="state.skip"
+    [sort]="state.sort"
+    [filter]="state.filter"
+    [loading]="dataService?.pendingData"
+    (dataStateChange)="dataStateChange($event)"
+    (edit)="editHandler($event)"
+    (save)="saveHandler($event)"
+    (remove)="removeHandler($event)"
+    (add)="addHandler()"
+    (selectionChange)="gridUserSelectionChange(rentalCompanyGrid, $event)"
+    kendoGridSelectBy
+    [selectedKeys]="mySelection"
+  >
+    <ng-template kendoGridToolbarTemplate>
+      <button kendoGridAddCommand>
+        <span class="k-icon k-i-add"></span>
+      </button>
+    </ng-template>
+   
+    <kendo-grid-column
+      [field]="'Description'"
+      [filterable]="true"
+      [filter]="'text'"
+      [sortable]="true"
+      [title]="'Description'"
+    ></kendo-grid-column>
+  
+    <kendo-grid-command-column [width]="220">
+      <ng-template kendoGridCellTemplate>
+        <button kendoGridEditCommand >
+          <span  class="k-icon k-i-edit"></span>Edit
+        </button>
+        <button kendoGridSaveCommand > 
+          <span  class="k-icon k-i-checkmark"></span>Save
+        </button>
+        <button kendoGridCancelCommand>
+          <span class="k-icon k-i-cancel"></span>Cancel
+        </button>
+        <button kendoGridRemoveCommand   >
+          <span class="k-icon k-i-close"></span>Remove
+        </button>
+      </ng-template>
+    </kendo-grid-command-column>
+  </kendo-grid>
+</div>
+
+<kendo-grid-edit-form2
+[model]="editDataItem"
+[isNew]="isNew"
+(save)="saveHandler($event)"
+(cancel)="cancelHandler()"
+>
+</kendo-grid-edit-form2>
+
+<div *ngIf = "currentRentalCompany !== ''">
+  <app-car-agency [RentalCompanyId]="currentRentalCompany"></app-car-agency>
+</div>

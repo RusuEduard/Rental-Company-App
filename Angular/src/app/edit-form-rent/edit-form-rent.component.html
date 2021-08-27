@@ -1,0 +1,70 @@
+<kendo-dialog *ngIf="active" [width]="300" [height]="450" (close)="closeForm()">
+    <kendo-dialog-titlebar>
+      {{ isNew ? "Add new Rent" : "Edit Rent" }}
+    </kendo-dialog-titlebar>
+  
+    <form novalidate class="k-form" [formGroup]="editForm">
+      <kendo-formfield>
+        <kendo-label [for]="AppUserId" text="User"></kendo-label>
+        <kendo-dropdownlist
+          formControlName="AppUserId"
+          #AppUserId
+          [defaultItem]="{ User: '', Name: 'Choose a User' }"
+          [data]="AppUserList"
+          textField="Name"
+          valueField="AppUserId"
+          [valuePrimitive]="true"
+        >
+        </kendo-dropdownlist>
+  
+        <kendo-formhint>Select User</kendo-formhint>
+      </kendo-formfield>
+  
+      <kendo-formfield>
+        <kendo-label [for]="CarAgencyId" text="Car Agency"></kendo-label>
+        <kendo-dropdownlist
+          formControlName="CarAgencyId"
+          #CarAgencyId
+          [defaultItem]="{ CarAgency: '', Name: 'Choose a Car Agency' }"
+          [data]="CarAgencyList"
+          textField="Address"
+          valueField="CarAgencyId"
+          [valuePrimitive]="true"
+        >
+        </kendo-dropdownlist>
+  
+        <kendo-formhint>Select User</kendo-formhint>
+      </kendo-formfield>
+
+
+      <kendo-formfield>
+        <kendo-label [for]="DateFrom" text="DateFrom"></kendo-label>
+        <input type='date' formControlName="DateFrom"  kendoDatePicker #DateFrom required />
+  
+        <kendo-formhint>Choose DateFrom</kendo-formhint>
+        <kendo-formerror>Error: DateFrom is required</kendo-formerror>
+      </kendo-formfield>
+  
+      <kendo-formfield>
+        <kendo-label [for]="DateTo" text="DateTo"></kendo-label>
+        <input type='date' formControlName="DateTo"  kendoDatePicker #DateTo required />
+  
+        <kendo-formhint>Choose DateTo</kendo-formhint>
+        <kendo-formerror>Error: DateTo is required</kendo-formerror>
+      </kendo-formfield>
+      
+
+    </form>
+  
+    <kendo-dialog-actions>
+      <button class="k-button" (click)="onCancel($event)">Cancel</button>
+      <button
+        class="k-button k-primary"
+        [disabled]="!editForm.valid"
+        (click)="onSave($event)"
+      >
+        Save
+      </button>
+    </kendo-dialog-actions>
+  </kendo-dialog>
+  

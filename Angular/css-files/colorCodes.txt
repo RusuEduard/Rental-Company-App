@@ -1,0 +1,17 @@
+header : background-color: rgba(255, 153, 0, 0.3)
+
+button: hover: rgba(255, 153, 0, 0.3)
+        active: #ffffe6
+
+k-grid-header: border-color: #1a1a00
+  	       background-color: rgba(255, 153, 0, 0.3) #fff5e6
+	       color: #1a1a00
+ 	       hover:#fff5e6
+               
+table-tr: nth odd: #636967 rgb(99, 105, 103,0.6)
+          nth even: #7c8381 rgb(124, 131, 129,0.6)
+          hover: #e6e6e6
+
+red: rgba(255, 99, 88, 0.3) #ff6358 #d6534a #eb5b51 #f55f54
+
+hover to text: #804d00

@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <ul class="navbar-nav">
+      <li class="nav-item" *ngIf="isAuthorized(['admin', 'user', 'superadmin'])">
+        <a class="nav-link" routerLink="/car-view">Cars</a>
+      </li>
+      <li class="nav-item" *ngIf="isAuthorized(['admin', 'user', 'superadmin'])">
+        <a class="nav-link" routerLink="/rent">Rents</a>
+      </li> 
+      <li class="nav-item" *ngIf="isAuthorized(['admin', 'superadmin'])">
+        <a class="nav-link" routerLink="/app-rental-company">Rental Company</a>
+      </li>      
+      <li class="nav-item" *ngIf="isAuthorized(['admin', 'superadmin'])">
+        <a class="nav-link" routerLink="/car-type-view">Car Types</a>
+      </li>
+      <li class="nav-item" *ngIf="isAuthorized(['superadmin'])">
+        <a class="nav-link" routerLink="/user-view">Users</a>
+      </li>
+      <li class="nav-item" *ngIf="isAuthorized(['superadmin'])">
+        <a class="nav-link" routerLink="/role-types">Role types</a>
+      </li>
+      <li class="nav-item" *ngIf="isAuthorized(['undefined'])">
+        <a class="nav-link" routerLink="/app-company-picker">Agencies</a>
+      </li>
+      <li class="nav-item" *ngIf="isAuthorized(['admin', 'user'])">
+        <a class="nav-link" (click)="back()">Change company</a>
+      </li>
+      <li class="nav-item" *ngIf="isAuthorized(['admin', 'superadmin'])">
+        <a class="nav-link" routerLink="/app-launch-report">Launch Report</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" (click)="logout()">Logout</a>
+      </li>
+      
+    </ul>
+  </nav>
+  <router-outlet></router-outlet>
+  

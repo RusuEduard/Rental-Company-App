@@ -1,0 +1,41 @@
+<div class="col-12">
+    <kendo-grid #cartypereportGrid
+      [pageable]="true"
+      [data]="dataServiceData | async"
+      [pageSize]="state.take"
+      [skip]="state.skip"
+      [loading]="dataService?.pendingData"
+      (dataStateChange)="dataStateChange($event)"    
+    >
+    
+    <kendo-grid-column 
+        [field]="'Model'"
+        [filterable]="true"
+        [filter]="'text'"
+        [sortable]="true"
+        [title]="'Model'"
+    ></kendo-grid-column>
+    <kendo-grid-column 
+        [field]="'Manufacturer'"
+        [filterable]="true"
+        [filter]="'text'"
+        [sortable]="true"
+        [title]="'Manufacturer'"
+    ></kendo-grid-column>
+    <kendo-grid-column 
+        [field]="'CarType'"
+        [filterable]="true"
+        [filter]="'text'"
+        [sortable]="true"
+        [title]="'CarType'"
+    ></kendo-grid-column>
+    <kendo-grid-column 
+        [field]="'NrOfRents'"
+        [filterable]="true"
+        [filter]="'numeric'"
+        [sortable]="true"
+        [title]="'NrOfRents'"
+    ></kendo-grid-column>
+    
+    </kendo-grid>
+  </div>

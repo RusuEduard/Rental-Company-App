@@ -1,0 +1,37 @@
+<kendo-dialog *ngIf="active" [width]="300" [height]="450" (close)="closeForm()">
+    <kendo-dialog-titlebar>
+      {{ isNew ? "Add new Rent Car" : "Edit Rent Car" }}
+    </kendo-dialog-titlebar>
+  
+    <form novalidate class="k-form" [formGroup]="editForm">
+        <kendo-formfield>
+            <kendo-label [for]="CarId" text="CarId"></kendo-label>
+            <kendo-dropdownlist
+              formControlName="CarId"
+              #CarId
+              [defaultItem]="{ CarId: '', Manufacturer: 'Choose a car type' }"
+              [data]="CarList"
+              textField="Manufacturer"
+              valueField="CarId"
+              [valuePrimitive]="true"
+            >
+            </kendo-dropdownlist>
+      
+            <kendo-formhint>Select car's type</kendo-formhint>
+          </kendo-formfield>
+  
+    
+    </form>
+  
+    <kendo-dialog-actions>
+      <button class="k-button" (click)="onCancel($event)">Cancel</button>
+      <button
+        class="k-button k-primary"
+        [disabled]="!editForm.valid"
+        (click)="onSave($event)"
+      >
+        Save
+      </button>
+    </kendo-dialog-actions>
+  </kendo-dialog>
+  

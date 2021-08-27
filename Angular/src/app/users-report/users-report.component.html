@@ -1,0 +1,41 @@
+<div class="col-12">
+    <kendo-grid #userreportGrid
+      [pageable]="true"
+      [data]="dataServiceData | async"
+      [pageSize]="state.take"
+      [skip]="state.skip"
+      [loading]="dataService?.pendingData"
+      (dataStateChange)="dataStateChange($event)"    
+    >
+    
+    <kendo-grid-column 
+        [field]="'NAME'"
+        [filterable]="true"
+        [filter]="'text'"
+        [sortable]="true"
+        [title]="'NAME'"
+    ></kendo-grid-column>
+    <kendo-grid-column 
+        [field]="'Username'"
+        [filterable]="true"
+        [filter]="'text'"
+        [sortable]="true"
+        [title]="'Username'"
+    ></kendo-grid-column>
+    <kendo-grid-column 
+        [field]="'NumberOfRents'"
+        [filterable]="true"
+        [filter]="'numeric'"
+        [sortable]="true"
+        [title]="'NumberOfRents'"
+    ></kendo-grid-column>
+    <kendo-grid-column 
+        [field]="'ListOfCompanies'"
+        [filterable]="true"
+        [filter]="'text'"
+        [sortable]="true"
+        [title]="'ListOfCompanies'"
+    ></kendo-grid-column>
+    
+    </kendo-grid>
+  </div>

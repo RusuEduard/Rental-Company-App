@@ -1,0 +1,56 @@
+<kendo-dialog *ngIf="active" [width]="300" [height]="450" (close)="closeForm()">
+  <kendo-dialog-titlebar>
+    {{ isNew ? "Add new user role" : "Edit user role" }}
+  </kendo-dialog-titlebar>
+
+  <form novalidate class="k-form" [formGroup]="editForm">
+
+    <kendo-formfield>
+      <kendo-label [for]="RentalCompanyId" text="Rental company"></kendo-label>
+      <kendo-dropdownlist
+        formControlName="RentalCompanyId"
+        #RentalCompanyId
+        [defaultItem]="{ RentalCompany: '', DESCRIPTION: 'Choose a rental company' }"
+        [data]="rentalCompanyList"
+        textField="Description"
+        valueField="RentalCompanyId"
+        [valuePrimitive]="true"
+        required
+      >
+      </kendo-dropdownlist>
+
+      <kendo-formhint>Select user's rental company</kendo-formhint>
+    </kendo-formfield>
+
+    <kendo-formfield>
+      <kendo-label [for]="RoleTypeId" text="Role type"></kendo-label>
+      <kendo-dropdownlist
+        formControlName="RoleTypeId"
+        #RoleTypeId
+        [defaultItem]="{ CarType: '', DESCRIPTION: 'Choose a car type' }"
+        [data]="roleTypesList"
+        textField="Description"
+        valueField="RoleTypeId"
+        [valuePrimitive]="true"
+        required
+      >
+      </kendo-dropdownlist>
+
+      <kendo-formhint>Select user's role type</kendo-formhint>
+    </kendo-formfield>
+
+  
+  </form>
+
+  <kendo-dialog-actions>
+    <button class="k-button" (click)="onCancel($event)">Cancel</button>
+    <button
+      class="k-button k-primary"
+      [disabled]="!editForm.valid"
+      (click)="onSave($event)"
+    >
+      Save
+    </button>
+  </kendo-dialog-actions>
+</kendo-dialog>
+

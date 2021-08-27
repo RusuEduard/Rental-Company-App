@@ -1,0 +1,34 @@
+<div class="col-12">
+    <kendo-grid #cartypereportGrid
+      [pageable]="true"
+      [data]="dataServiceData | async"
+      [pageSize]="state.take"
+      [skip]="state.skip"
+      [loading]="dataService?.pendingData"
+      (dataStateChange)="dataStateChange($event)"
+    
+    >
+      <ng-template kendoGridToolbarTemplate>
+        <button kendoGridAddCommand>
+          <span class="k-icon k-i-add"></span>
+        </button>
+      </ng-template>
+    
+      <kendo-grid-column 
+        [field]="'Description'"
+        [filterable]="true"
+        [filter]="'text'"
+        [sortable]="true"
+        [title]="'Description'"
+    ></kendo-grid-column>
+    <kendo-grid-column 
+        [field]="'NumberOfCars'"
+        [filterable]="true"
+        [filter]="'numeric'"
+        [sortable]="true"
+        [title]="'NumberOfCars'"
+    ></kendo-grid-column>
+    
+    </kendo-grid>
+  </div>
+  

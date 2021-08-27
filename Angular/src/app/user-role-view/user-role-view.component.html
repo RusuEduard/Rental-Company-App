@@ -1,0 +1,118 @@
+<div class="col-12">
+    <kendo-grid 
+      #rolesGrid
+      [pageable]="true"
+      [sortable]="true"
+      [filterable]="true"
+      [selectable]="true"
+      [data]="dataServiceData | async"
+      [pageSize]="state.take"
+      [skip]="state.skip"
+      [sort]="state.sort"
+      [filter]="state.filter"
+      [loading]="dataService?.pendingData"
+      (selectionChange)="gridUserSelectionChange(rolesGrid, $event)"
+      (dataStateChange)="dataStateChange($event)"
+      (save)="saveHandler($event)"
+      (edit)="editHandler($event)"
+      (remove)="removeHandler($event)"
+      (add)="addHandler($event)"
+    >
+      <ng-template *ngIf="AppUserId != ''" kendoGridToolbarTemplate>
+        <button kendoGridAddCommand>
+          <span class="k-icon k-i-add"></span>
+        </button>
+      </ng-template>
+      
+      <kendo-grid-column field="RentalCompanyId" title="Rental company" >
+        <ng-template  kendoGridCellTemplate let-dataItem>
+              {{ rentalcompany(dataItem.RentalCompanyId)?.Description}}
+        </ng-template>
+            <ng-template
+              kendoGridEditTemplate
+              let-dataItem="dataItem"
+              let-column="column"
+              let-formGroup="formGroup"
+            >
+          <kendo-dropdownlist style="color:black"
+            [defaultItem]="{ RentalCompany: '', Description: 'Choose a Rental company' }"
+            [data]="rentalCompanyList"
+            textField="Description"
+            valueField="RentalCompanyId"
+            [valuePrimitive]="true"
+            [formControl]="formGroup.get('RentalCompanyId')"
+          >
+          </kendo-dropdownlist>
+        </ng-template>
+        <ng-template kendoGridFilterCellTemplate let-filter  style="color:black">
+            <app-dropdownlist-rentalco
+              [filter]="filter"
+              [data]="rentalCompanyList"
+              textField="Description"
+              valueField="RentalCompanyId"
+            >
+            </app-dropdownlist-rentalco>
+          </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column field="RoleTypeId" title="RoleType" >
+        <ng-template  kendoGridCellTemplate let-dataItem>
+              {{ roletypes(dataItem.RoleTypeId)?.Description}}
+        </ng-template>
+            <ng-template
+              kendoGridEditTemplate
+              let-dataItem="dataItem"
+              let-column="column"
+              let-formGroup="formGroup"
+            >
+          <kendo-dropdownlist style="color:black"
+            [defaultItem]="{ RoleType: '', Description: 'Choose a RoleType' }"
+            [data]="roleTypesList"
+            textField="Description"
+            valueField="RoleTypeId"
+            [valuePrimitive]="true"
+            [formControl]="formGroup.get('RoleTypeId')"
+          >
+          </kendo-dropdownlist>
+        </ng-template>
+        <ng-template kendoGridFilterCellTemplate let-filter  style="color:black">
+            <app-dropdownlist-roletypes
+              [filter]="filter"
+              [data]="roleTypesList"
+              textField="Description"
+              valueField="RoleTypeId"
+            >
+            </app-dropdownlist-roletypes>
+          </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-command-column *ngIf = "AppUserId != ''" [width]="220">
+        <ng-template kendoGridCellTemplate>
+          <button kendoGridEditCommand>
+            <span class="k-icon k-i-edit"></span>Edit
+          </button>
+          <button kendoGridSaveCommand>
+            <span class="k-icon k-i-checkmark"></span>Save
+          </button>
+          <button kendoGridCancelCommand>
+            <span class="k-icon k-i-cancel"></span>Cancel
+          </button>
+          <button kendoGridRemoveCommand>
+            <span class="k-icon k-i-close"></span>Remove
+          </button>
+        </ng-template>
+      </kendo-grid-command-column>
+    </kendo-grid>
+  </div>
+
+  <app-edit-form-appuser
+[AppUserId]="AppUserId"
+[model]="editDataItem"
+[isNew]="isNew"
+(save)="saveHandler($event)"
+(cancel)="cancelHandler()"
+[roleTypesList] = "roleTypesList"
+[rentalCompanyList] = "rentalCompanyList"
+>
+</app-edit-form-appuser>
+  

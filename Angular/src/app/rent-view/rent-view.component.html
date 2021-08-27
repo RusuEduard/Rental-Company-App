@@ -1,0 +1,128 @@
+<div class="col-12">
+    <kendo-grid #rentGrid
+      [pageable]="true"
+      [sortable]="true"
+      [selectable]="true"
+      [filterable]="true"
+      kendoGridSelectBy="RentId"
+      [selectedKeys]="mySelection"
+      [data]="dataServiceData | async"
+      [pageSize]="state.take"
+      [skip]="state.skip"
+      [sort]="state.sort"
+      [filter]="state.filter"
+      [loading]="dataService?.pendingData"
+      (dataStateChange)="dataStateChange($event)"
+      (edit)="editHandler($event)"
+      
+      (save)="saveHandler($event)"
+      (remove)="removeHandler($event)"
+      (add)="addHandler($event)"
+      (selectionChange)="gridUserSelectionChange(rentGrid, $event)"
+    >
+      <ng-template kendoGridToolbarTemplate>
+        <button kendoGridAddCommand>
+          <span class="k-icon k-i-add"></span>
+        </button>
+      </ng-template>
+
+     
+
+    <kendo-grid-column field="CarAgencyId" title="CarAgency" >
+      <ng-template kendoGridCellTemplate let-dataItem>
+            {{ rentalcompany(dataItem.CarAgencyId)?.Description}}
+            {{ caragency(dataItem.CarAgencyId)?.Address}}
+          </ng-template>
+          <ng-template
+            kendoGridEditTemplate
+            let-dataItem="dataItem"
+            let-column="column"
+            let-formGroup="formGroup"
+          >
+        <kendo-dropdownlist style="color:black"
+          [defaultItem]="{ CarAgency: '', Address: 'Choose a AppUser' }"
+          [data]="CarAgencyList"
+          textField="Address"
+          valueField="CarAgencyId"
+          [valuePrimitive]="true"
+          [formControl]="formGroup.get('CarAgencyId')"
+        >
+        </kendo-dropdownlist>
+      </ng-template>
+      <ng-template kendoGridFilterCellTemplate let-filter  style="color:black"  *ngIf="UserRole==='superadmin'">
+          <app-dropdownlist-filter
+            [filter]="filter"
+            [data]="CarAgencyList"
+            textField="Address"
+            valueField="CarAgencyId"
+          >
+          </app-dropdownlist-filter>
+        </ng-template>
+        <ng-template kendoGridFilterCellTemplate let-filter  style="color:black"  *ngIf="UserRole!=='superadmin'">
+          <app-car-stock-dropdown
+            [filter]="filter"
+            [data]="CarAgencyList"
+            textField="Address"
+            valueField="CarAgencyId"
+          >
+          </app-car-stock-dropdown>
+        </ng-template>
+    </kendo-grid-column>
+     
+      <kendo-grid-column
+        [field]="'DateFrom'"
+        [filterable]="true"
+        [filter]="'date'"
+        [format]="'dd-MM-yyyy'"
+        editor='date'
+        [sortable]="true"
+        [title]="'DateFrom'"
+      ></kendo-grid-column>
+      <kendo-grid-column
+        [field]="'DateTo'"
+        [filterable]="true"
+        [filter]="'date'"
+        editor='date'
+        [format]="'dd-MM-yyyy'"
+        [sortable]="true"
+        [title]="'DateTo'"
+      ></kendo-grid-column>
+      <kendo-grid-column
+        [field]="'RentStatus'"
+        [filterable]="true"
+        [filter]="'numeric'"
+        [sortable]="true"
+        [title]="'RentStatus'"
+      ></kendo-grid-column>
+     
+      <kendo-grid-command-column [width]="220">
+        <ng-template kendoGridCellTemplate>
+          <button kendoGridEditCommand>
+            <span class="k-icon k-i-edit"></span>Edit
+          </button>
+          <button kendoGridSaveCommand>
+            <span class="k-icon k-i-checkmark"></span>Save
+          </button>
+          <button kendoGridCancelCommand>
+            <span class="k-icon k-i-cancel"></span>Cancel
+          </button>
+          <button kendoGridRemoveCommand>
+            <span class="k-icon k-i-close"></span>Remove
+          </button>
+        </ng-template>
+      </kendo-grid-command-column>
+    </kendo-grid>
+  </div>
+  
+  <app-edit-form-rent
+[appuser]="editDataItem"
+[isNew]="isNew"
+(save)="saveHandler($event)"
+(cancel)="cancelHandler()"
+[AppUserList] = "AppUserList"
+[CarAgencyList] = "CarAgencyList" 
+>
+</app-edit-form-rent>
+  <div *ngIf="currentRent != ''">
+    <app-rent-car-view [RentId]="currentRent"> </app-rent-car-view>
+  </div>

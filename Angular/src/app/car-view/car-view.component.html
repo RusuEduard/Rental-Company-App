@@ -1,0 +1,108 @@
+<div class="col-12">
+  <kendo-grid
+    #carGrid
+    [pageable]="true"
+    [sortable]="true"
+    [selectable]="true"
+    [filterable]="true"
+    [data]="dataServiceData | async"
+    [pageSize]="state.take"
+    [skip]="state.skip"
+    [sort]="state.sort"
+    [filter]="state.filter"
+    [loading]="dataService?.pendingData"
+    (dataStateChange)="dataStateChange($event)"
+    (edit)="editHandler($event)"
+
+    (save)="saveHandler($event)"
+    (remove)="removeHandler($event)"
+    (add)="addHandler()"
+    (selectionChange)="gridUserSelectionChange(carGrid, $event)"
+    kendoGridSelectBy
+    [selectedKeys]="mySelection"
+
+    
+  >
+    <ng-template kendoGridToolbarTemplate>
+      <button kendoGridAddCommand *ngIf ="UserRole !== 'user'">
+        <span  class="k-icon k-i-add"></span>
+      </button>
+    </ng-template>
+   
+    <kendo-grid-column
+      [field]="'Manufacturer'"
+      [filterable]="true"
+      [filter]="'text'"
+      [sortable]="true"
+      [title]="'Manufacturer'"
+    ></kendo-grid-column>
+    <kendo-grid-column 
+      [field]="'Model'"
+      [filterable]="true"
+      [filter]="'text'"
+      [sortable]="true"
+      [title]="'Model'"
+    ></kendo-grid-column>
+   
+    <kendo-grid-column field="CarTypeId" title="CarType" >
+      <ng-template kendoGridCellTemplate let-dataItem>
+            {{ cartypes(dataItem.CarTypeId)?.Description }}
+          </ng-template>
+          <ng-template
+            kendoGridEditTemplate
+            let-dataItem="dataItem"
+            let-column="column"
+            let-formGroup="formGroup"
+          >
+        <kendo-dropdownlist 
+          [defaultItem]="{ CarType: '', Description: 'Choose a cartype' }"
+          [data]="CarTypesList"
+          textField="Description"
+          valueField="CarTypeId"
+          [valuePrimitive]="true"
+          [formControl]="formGroup.get('CarTypeId')"
+        >
+        </kendo-dropdownlist>
+      </ng-template>
+      <ng-template kendoGridFilterCellTemplate let-filter  >
+          <app-dropdownlist-filter
+            [filter]="filter"
+            [data]="CarTypesList"
+            textField="Description"
+            valueField="CarTypeId"
+          >
+          </app-dropdownlist-filter>
+        </ng-template>
+    </kendo-grid-column>
+  
+    <kendo-grid-command-column [width]="220" *ngIf ="UserRole !== 'user'">
+      <ng-template kendoGridCellTemplate>
+        <button kendoGridEditCommand >
+          <span  class="k-icon k-i-edit"></span>Edit
+        </button>
+        <button kendoGridSaveCommand > 
+          <span  class="k-icon k-i-checkmark"></span>Save
+        </button>
+        <button kendoGridCancelCommand>
+          <span class="k-icon k-i-cancel"></span>Cancel
+        </button>
+        <button kendoGridRemoveCommand   >
+          <span class="k-icon k-i-close"></span>Remove
+        </button>
+        
+      </ng-template>
+    </kendo-grid-command-column>
+  </kendo-grid>
+</div>
+<kendo-grid-edit-form
+[model]="editDataItem"
+[isNew]="isNew"
+(save)="saveHandler($event)"
+(cancel)="cancelHandler()"
+[CarTypesList] = "CarTypesList"
+>
+</kendo-grid-edit-form>
+<div *ngIf="currentCar != ''">
+  <app-car-stock-view [CarId]="currentCar" > </app-car-stock-view>
+</div>
+

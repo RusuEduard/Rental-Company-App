@@ -1,0 +1,57 @@
+<kendo-dialog *ngIf="active" [width]="300" [height]="450" (close)="closeForm()">
+    <kendo-dialog-titlebar>
+      {{ isNew ? "Add new car" : "Edit car" }}
+    </kendo-dialog-titlebar>
+  
+    <form novalidate class="k-form" [formGroup]="editForm">
+      
+  
+      <kendo-formfield>
+        <kendo-label [for]="Manufacturer" text="Manufacturer"></kendo-label>
+        <input formControlName="Manufacturer" kendoTextBox #Manufacturer required />
+  
+        <kendo-formhint>Type car's manufacturer</kendo-formhint>
+        <kendo-formerror>Error: Car manufacturer is required</kendo-formerror>
+      </kendo-formfield>
+      <kendo-formfield>
+        <kendo-label [for]="Model" text="Model"></kendo-label>
+        <input formControlName="Model" kendoTextBox #Model required />
+  
+        <kendo-formhint>Type car's model</kendo-formhint>
+        <kendo-formerror>Error: Car model is required</kendo-formerror>
+      </kendo-formfield>
+
+      <kendo-formfield>
+        <kendo-label [for]="CarTypeId" text="CarType"></kendo-label>
+        <kendo-dropdownlist
+          formControlName="CarTypeId"
+          #CarTypeId
+          [defaultItem]="{ CarType: '', Description: 'Choose a car type' }"
+          [data]="CarTypesList"
+          textField="Description"
+          valueField="CarTypeId"
+          [valuePrimitive]="true"
+          required
+        >
+        </kendo-dropdownlist>
+  
+        <kendo-formhint>Select car's type</kendo-formhint>
+        <kendo-formerror>Error: Car type is required</kendo-formerror>
+
+      </kendo-formfield>
+  
+    
+    </form>
+  
+    <kendo-dialog-actions>
+      <button class="k-button" (click)="onCancel($event)">Cancel</button>
+      <button
+        class="k-button k-primary"
+        [disabled]="!editForm.valid"
+        (click)="onSave($event)"
+      >
+        Save
+      </button>
+    </kendo-dialog-actions>
+  </kendo-dialog>
+  

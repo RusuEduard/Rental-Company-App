@@ -1,0 +1,8 @@
+DEFINE TEMP-TABLE ttRentCar NO-UNDO
+    BEFORE-TABLE bttRentCar
+    FIELD RentCarId AS CHARACTER 
+    FIELD RentId AS CHARACTER
+    FIELD CarId AS CHARACTER 
+    
+
+    INDEX idxRentCarId IS UNIQUE RentCarId.

@@ -1,0 +1,55 @@
+<div class="col-12">
+    <kendo-grid
+      #appuserGrid
+      [pageable]="true"
+      [sortable]="true"
+      [selectable]="true"
+      [filterable]="true"
+      kendoGridSelectBy="RoleTypeId"
+      [selectedKeys]="mySelection"
+      [data]="dataServiceData | async"
+      [pageSize]="state.take"
+      [skip]="state.skip"
+      [sort]="state.sort"
+      [filter]="state.filter"
+      [loading]="dataService?.pendingData"
+      (dataStateChange)="dataStateChange($event)"
+      (edit)="editHandler($event)"
+      (cancel)="cancelHandler($event)"
+      (save)="saveHandler($event)"
+      (remove)="removeHandler($event)"
+      (add)="addHandler($event)"
+      (selectionChange)="gridUserSelectionChange(appuserGrid, $event)"
+    >
+      <ng-template kendoGridToolbarTemplate>
+        <button kendoGridAddCommand>
+          <span class="k-icon k-i-add"></span>
+        </button>
+      </ng-template>
+      <kendo-grid-column
+        [field]="'Description'"
+        [filterable]="true"
+        [filter]="'text'"
+        [sortable]="true"
+        [title]="'Description'"
+      ></kendo-grid-column>
+      <kendo-grid-command-column [width]="220">
+        <ng-template kendoGridCellTemplate>
+          <button kendoGridEditCommand>
+            <span class="k-icon k-i-edit"></span>Edit
+          </button>
+          <button kendoGridSaveCommand>
+            <span class="k-icon k-i-checkmark"></span>Save
+          </button>
+          <button kendoGridCancelCommand>
+            <span class="k-icon k-i-cancel"></span>Cancel
+          </button>
+          <button kendoGridRemoveCommand>
+            <span class="k-icon k-i-close"></span>Remove
+          </button>
+        </ng-template>
+      </kendo-grid-command-column>
+    </kendo-grid>
+  </div>
+  
+  
